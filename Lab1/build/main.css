@@ -1,0 +1,13 @@
+.output{
+    margin: 4px;
+    margin-top: 10px;
+}
+span{
+    margin: 2px;
+    margin-right: 6px;
+    padding: 2px 50px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 5px;
+}
