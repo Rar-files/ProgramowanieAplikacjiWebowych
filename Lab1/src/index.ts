@@ -1,53 +1,93 @@
 class StatsApp{
-    data1 : HTMLInputElement;
-    data2 : HTMLInputElement;
-    data3 : HTMLInputElement;
-    data4 : HTMLInputElement;
+    numbersOfParam : HTMLInputElement;
+    inputsDiv : HTMLDivElement;
+    delateInputBtn : HTMLButtonElement;
 
     sum : HTMLSpanElement;
     avg : HTMLSpanElement;
     min : HTMLSpanElement;
     max : HTMLSpanElement;
 
+    waitingIcn : string;
+
     constructor(){
         this.StartApp();
     }
 
     StartApp(){
-        this.GetElements();
-        this.AddEventsListner();
+        this.GetBasicElements();
+        this.AddBasicEventListners();
     }
 
-    GetElements(){
-        this.data1 = document.querySelector("#data1");
-        this.data2 = document.querySelector("#data2");
-        this.data3 = document.querySelector("#data3");
-        this.data4 = document.querySelector("#data4");
+    GetBasicElements(){
+        this.numbersOfParam = document.querySelector("#numbersOfParam");
+        this.inputsDiv = document.querySelector("#inputDiv");
+        this.delateInputBtn = document.querySelector("#delateInputBtn");
         this.sum = document.querySelector("#sum");
         this.avg = document.querySelector("#avg");
         this.min = document.querySelector("#min");
         this.max = document.querySelector("#max");
+        this.waitingIcn = "<i class=\"fas fa-hourglass-half\"></i>"
     }
 
-    AddEventsListner(){
-        this.data1.addEventListener("input", () => this.CalculateData());
-        this.data2.addEventListener("input", () => this.CalculateData());
-        this.data3.addEventListener("input", () => this.CalculateData());
-        this.data4.addEventListener("input", () => this.CalculateData());
+    AddBasicEventListners(){
+        this.numbersOfParam.addEventListener("input", () => this.SetInputElements());
+        this.delateInputBtn.addEventListener("click", () => this.DelateSelectedInputs());
+    }
+
+    DelateSelectedInputs(){
+        let inputsArr = this.inputsDiv.querySelectorAll("div");
+        inputsArr.forEach(item => this.CheckToDelateInput(item));
+        this.CalculateData();
+    }
+
+    CheckToDelateInput(item : HTMLDivElement){
+        if((item.children[1] as HTMLInputElement).checked == true)
+            item.remove();
+    }
+
+    SetInputElements(){
+        this.inputsDiv.innerHTML = '';
+        for(let i = 0; i<+this.numbersOfParam.value ; i++)
+        {
+            this.inputsDiv.appendChild(this.GetElementWithInput());
+        }
+    }
+
+    GetElementWithInput(){
+        let elementDiv = document.createElement("div");
+
+        let inputElement = document.createElement("input");
+        inputElement.addEventListener("input", () => this.CalculateData());
+        elementDiv.appendChild(inputElement);
+
+        let checkBox = document.createElement("input");
+        checkBox.type = "checkBox";
+        elementDiv.appendChild(checkBox);
+        return elementDiv;
     }
 
     CalculateData(){
-        let value1 : number = +this.data1.value;
-        let value2 : number = +this.data2.value;
-        let value3 : number = +this.data3.value;
-        let value4 : number = +this.data4.value;
+        let inputsArr = this.inputsDiv.querySelectorAll("div");
+        let inputsValueArr: number[] = Array.prototype.slice.call(inputsArr).map(function(item : HTMLDivElement){
+            return +(item.children[0] as HTMLInputElement).value;
+        })
+        console.log(inputsValueArr);
 
-        let sum = value1 +value2 + value3 + value4;
-        let avg = sum/4;
-        let min = Math.min(value1,value2,value3,value4);
-        let max = Math.max(value1,value2,value3,value4);
+        let sum : number = 0;
+        inputsValueArr.forEach(n => sum+= n);
+        let avg = sum/inputsValueArr.length;
+        if(!isNaN(avg))
+        {
+        let min = Math.min.apply(null, inputsValueArr);
+        let max = Math.max.apply(null, inputsValueArr);
 
         this.SetSpanValue(sum,avg,min,max);
+        }
+        else
+        {
+            this.WaitingForValue();
+        }
     }
 
     SetSpanValue(sum : number, avg: number, min: number, max: number){
@@ -56,4 +96,13 @@ class StatsApp{
         this.min.innerHTML = String(min);
         this.max.innerHTML = String(max);
     }
+
+    WaitingForValue(){
+        this.sum.innerHTML = this.waitingIcn;
+        this.avg.innerHTML = this.waitingIcn;
+        this.min.innerHTML = this.waitingIcn;
+        this.max.innerHTML = this.waitingIcn;
+    }
 }
+
+let App = new StatsApp;

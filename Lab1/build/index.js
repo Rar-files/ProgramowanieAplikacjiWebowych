@@ -3,36 +3,68 @@ var StatsApp = /** @class */ (function () {
         this.StartApp();
     }
     StatsApp.prototype.StartApp = function () {
-        this.GetElements();
-        this.AddEventsListner();
+        this.GetBasicElements();
+        this.AddBasicEventListners();
     };
-    StatsApp.prototype.GetElements = function () {
-        this.data1 = document.querySelector("#data1");
-        this.data2 = document.querySelector("#data2");
-        this.data3 = document.querySelector("#data3");
-        this.data4 = document.querySelector("#data4");
+    StatsApp.prototype.GetBasicElements = function () {
+        this.numbersOfParam = document.querySelector("#numbersOfParam");
+        this.inputsDiv = document.querySelector("#inputDiv");
+        this.delateInputBtn = document.querySelector("#delateInputBtn");
         this.sum = document.querySelector("#sum");
         this.avg = document.querySelector("#avg");
         this.min = document.querySelector("#min");
         this.max = document.querySelector("#max");
+        this.waitingIcn = "<i class=\"fas fa-hourglass-half\"></i>";
     };
-    StatsApp.prototype.AddEventsListner = function () {
+    StatsApp.prototype.AddBasicEventListners = function () {
         var _this = this;
-        this.data1.addEventListener("input", function () { return _this.CalculateData(); });
-        this.data2.addEventListener("input", function () { return _this.CalculateData(); });
-        this.data3.addEventListener("input", function () { return _this.CalculateData(); });
-        this.data4.addEventListener("input", function () { return _this.CalculateData(); });
+        this.numbersOfParam.addEventListener("input", function () { return _this.SetInputElements(); });
+        this.delateInputBtn.addEventListener("click", function () { return _this.DelateSelectedInputs(); });
+    };
+    StatsApp.prototype.DelateSelectedInputs = function () {
+        var _this = this;
+        var inputsArr = this.inputsDiv.querySelectorAll("div");
+        inputsArr.forEach(function (item) { return _this.CheckToDelateInput(item); });
+        this.CalculateData();
+    };
+    StatsApp.prototype.CheckToDelateInput = function (item) {
+        if (item.children[1].checked == true)
+            item.remove();
+    };
+    StatsApp.prototype.SetInputElements = function () {
+        this.inputsDiv.innerHTML = '';
+        for (var i = 0; i < +this.numbersOfParam.value; i++) {
+            this.inputsDiv.appendChild(this.GetElementWithInput());
+        }
+    };
+    StatsApp.prototype.GetElementWithInput = function () {
+        var _this = this;
+        var elementDiv = document.createElement("div");
+        var inputElement = document.createElement("input");
+        inputElement.addEventListener("input", function () { return _this.CalculateData(); });
+        elementDiv.appendChild(inputElement);
+        var checkBox = document.createElement("input");
+        checkBox.type = "checkBox";
+        elementDiv.appendChild(checkBox);
+        return elementDiv;
     };
     StatsApp.prototype.CalculateData = function () {
-        var value1 = +this.data1.value;
-        var value2 = +this.data2.value;
-        var value3 = +this.data3.value;
-        var value4 = +this.data4.value;
-        var sum = value1 + value2 + value3 + value4;
-        var avg = sum / 4;
-        var min = Math.min(value1, value2, value3, value4);
-        var max = Math.max(value1, value2, value3, value4);
-        this.SetSpanValue(sum, avg, min, max);
+        var inputsArr = this.inputsDiv.querySelectorAll("div");
+        var inputsValueArr = Array.prototype.slice.call(inputsArr).map(function (item) {
+            return +item.children[0].value;
+        });
+        console.log(inputsValueArr);
+        var sum = 0;
+        inputsValueArr.forEach(function (n) { return sum += n; });
+        var avg = sum / inputsValueArr.length;
+        if (!isNaN(avg)) {
+            var min = Math.min.apply(null, inputsValueArr);
+            var max = Math.max.apply(null, inputsValueArr);
+            this.SetSpanValue(sum, avg, min, max);
+        }
+        else {
+            this.WaitingForValue();
+        }
     };
     StatsApp.prototype.SetSpanValue = function (sum, avg, min, max) {
         this.sum.innerHTML = String(sum);
@@ -40,5 +72,12 @@ var StatsApp = /** @class */ (function () {
         this.min.innerHTML = String(min);
         this.max.innerHTML = String(max);
     };
+    StatsApp.prototype.WaitingForValue = function () {
+        this.sum.innerHTML = this.waitingIcn;
+        this.avg.innerHTML = this.waitingIcn;
+        this.min.innerHTML = this.waitingIcn;
+        this.max.innerHTML = this.waitingIcn;
+    };
     return StatsApp;
 }());
+var App = new StatsApp;
