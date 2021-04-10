@@ -1,0 +1,8 @@
+.sounds button{
+    background-color: black;
+    padding: 100px;
+}
+
+.sounds button:active, .activeBtn{
+    background-color: red;
+}
