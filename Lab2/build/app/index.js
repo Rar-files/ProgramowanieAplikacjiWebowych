@@ -6,6 +6,9 @@ var DrumKit = /** @class */ (function () {
         var _this = this;
         document.addEventListener('keypress', function (ev) { return _this.OnKeyPress(ev); });
         this.sounds = this.GetSoundElements();
+        this.recordChannel = -1;
+        this.Channels = new Array();
+        this.ChannelResetTime = new Array();
     };
     DrumKit.prototype.GetSoundElements = function () {
         return document.querySelectorAll('#sounds audio');
@@ -34,14 +37,45 @@ var DrumKit = /** @class */ (function () {
     DrumKit.prototype.PlaySound = function (sound) {
         sound.currentTime = 0;
         sound.play();
+        this.AddSoundToRecordChannel(sound);
+    };
+    DrumKit.prototype.AddSoundToRecordChannel = function (sound) {
+        if (this.recordChannel != -1) {
+            this.Channels[this.recordChannel].push({ sound: sound, time: document.timeline.currentTime });
+        }
+    };
+    DrumKit.prototype.RecordStart = function (channel) {
+        this.recordChannel = channel;
+        this.Channels[channel] = [];
+        this.ChannelResetTime[channel] = document.timeline.currentTime;
+    };
+    DrumKit.prototype.RecordStop = function () {
+        this.recordChannel = -1;
+    };
+    DrumKit.prototype.RecordPlay = function (channel) {
+        var _this = this;
+        var bufforResetTime = this.ChannelResetTime[channel];
+        this.Channels[channel].forEach(function (soundTimeObj) {
+            setTimeout(function () { return _this.PlaySound(soundTimeObj.sound); }, (soundTimeObj.time - bufforResetTime));
+        });
     };
     return DrumKit;
 }());
 var DrumKitView = /** @class */ (function () {
     function DrumKitView() {
+        this.CreateDrumKitView();
+    }
+    DrumKitView.prototype.CreateDrumKitView = function () {
         this.GetElements();
         this.CreateButtons();
-    }
+        this.AddEventListeners();
+    };
+    DrumKitView.prototype.AddEventListeners = function () {
+        var _this = this;
+        document.querySelector("#Play").addEventListener('click', function () { return _this.drumKit.RecordPlay(1); });
+        document.querySelector("#Stop").addEventListener('click', function () { return _this.drumKit.RecordStop(); });
+        document.querySelector("#Record").addEventListener('click', function () { return _this.drumKit.RecordStart(1); });
+    };
     DrumKitView.prototype.GetElements = function () {
         this.drumKit = new DrumKit();
         this.btnsRoot = document.querySelector("#soundBtns");

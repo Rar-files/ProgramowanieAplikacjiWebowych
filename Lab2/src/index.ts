@@ -1,6 +1,9 @@
 class DrumKit
 {
     sounds;
+    private recordChannel : number;
+    private Channels : any[][];
+    private ChannelResetTime : number[];
 
     constructor(){
         this.DrumKitStart()
@@ -9,6 +12,9 @@ class DrumKit
     DrumKitStart() :void{
         document.addEventListener('keypress', (ev: KeyboardEvent) => this.OnKeyPress(ev));
         this.sounds = this.GetSoundElements();
+        this.recordChannel = -1;
+        this.Channels = new Array<Array<any>>();
+        this.ChannelResetTime = new Array<number>();
     }
     
     GetSoundElements() : NodeListOf<HTMLAudioElement>{
@@ -41,7 +47,32 @@ class DrumKit
     PlaySound(sound : HTMLAudioElement) : void{
         sound.currentTime = 0;
         sound.play();
+        this.AddSoundToRecordChannel(sound);
     }
+
+    AddSoundToRecordChannel(sound : HTMLAudioElement) : void{
+        if(this.recordChannel != -1){
+            this.Channels[this.recordChannel].push({sound, time: document.timeline.currentTime});
+        }
+    }
+
+    RecordStart(channel: number){
+        this.recordChannel = channel;
+        this.Channels[channel] = [];
+        this.ChannelResetTime[channel] = document.timeline.currentTime;
+    }
+
+    RecordStop(){
+        this.recordChannel = -1;
+    }
+
+    RecordPlay(channel: number){
+        let bufforResetTime = this.ChannelResetTime[channel];
+        this.Channels[channel].forEach(soundTimeObj => {
+            setTimeout(() => this.PlaySound(soundTimeObj.sound) ,(soundTimeObj.time - bufforResetTime))
+        })
+    }
+
 }
 
 class DrumKitView{
@@ -50,8 +81,19 @@ class DrumKitView{
     btnsRoot : HTMLDivElement
 
     constructor(){
+        this.CreateDrumKitView();
+    }
+
+    CreateDrumKitView(){
         this.GetElements();
         this.CreateButtons();
+        this.AddEventListeners();
+    }
+
+    AddEventListeners(){
+        document.querySelector("#Play").addEventListener('click', () => this.drumKit.RecordPlay(1));
+        document.querySelector("#Stop").addEventListener('click', () => this.drumKit.RecordStop());
+        document.querySelector("#Record").addEventListener('click', () => this.drumKit.RecordStart(1));
     }
 
     GetElements() : void{
