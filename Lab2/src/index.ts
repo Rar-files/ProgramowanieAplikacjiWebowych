@@ -1,6 +1,6 @@
 class DrumKit
 {
-    sounds;
+    sounds : NodeListOf<HTMLAudioElement>;
     private recordChannel : number;
     private Channels : any[][];
     private ChannelResetTime : number[];
@@ -11,14 +11,14 @@ class DrumKit
 
     DrumKitStart() :void{
         document.addEventListener('keypress', (ev: KeyboardEvent) => this.OnKeyPress(ev));
-        this.sounds = this.GetSoundElements();
+        this.GetElements();
         this.recordChannel = -1;
         this.Channels = new Array<Array<any>>();
         this.ChannelResetTime = new Array<number>();
     }
     
-    GetSoundElements() : NodeListOf<HTMLAudioElement>{
-        return document.querySelectorAll('#sounds audio');
+    GetElements() : void{
+        this.sounds = document.querySelectorAll('#sounds audio');
     }
     
     OnKeyPress(ev: KeyboardEvent): void{
@@ -26,7 +26,7 @@ class DrumKit
     }
     
     PlaySoundByKey(key: string) : void{
-        key = key.toLowerCase();
+        key = key.toUpperCase();
         this.sounds.forEach((e : HTMLAudioElement) => {
             if(e.dataset.key == key){
                 this.PlaySound(e);
@@ -80,6 +80,9 @@ class DrumKitView{
     drumKit : DrumKit
     btnsRoot : HTMLDivElement
 
+    stateMonitor : HTMLDivElement;
+    stopButton : HTMLButtonElement;
+
     constructor(){
         this.CreateDrumKitView();
     }
@@ -90,15 +93,38 @@ class DrumKitView{
         this.AddEventListeners();
     }
 
-    AddEventListeners(){
-        document.querySelector("#Play").addEventListener('click', () => this.drumKit.RecordPlay(1));
-        document.querySelector("#Stop").addEventListener('click', () => this.drumKit.RecordStop());
-        document.querySelector("#Record").addEventListener('click', () => this.drumKit.RecordStart(1));
-    }
-
     GetElements() : void{
         this.drumKit = new DrumKit();
-        this.btnsRoot = document.querySelector("#soundBtns");
+        this.btnsRoot = document.querySelector("#soundBtns");      
+        this.stateMonitor = document.querySelector(".State");
+        this.stopButton = document.querySelector("#Stop");
+    }
+   
+    AddEventListeners(){
+        let Channels = document.querySelectorAll(".Channels div");
+        Channels.forEach((e) => {
+            e.children[0].addEventListener('click', () => this.RecordStart(+e.id));
+            e.children[1].addEventListener('click', () => this.RecordPlay(+e.id));
+        })
+        this.stopButton.addEventListener('click', () => this.RecordStop());
+    }
+
+    RecordStart(channel: number){
+        this.stateMonitor.innerHTML = "Recording Ch" + (channel+1);
+        this.stateMonitor.classList.add("RecordingStatus");
+        this.stopButton.classList.remove("InActive");
+        this.drumKit.RecordStart(channel);
+    }
+
+    RecordPlay(channel: number){
+        this.drumKit.RecordPlay(channel);
+    }
+
+    RecordStop(){
+        this.stateMonitor.innerHTML = "Ready";
+        this.stateMonitor.classList.remove("RecordingStatus");
+        this.stopButton.classList.add("InActive");
+        this.drumKit.RecordStop;
     }
 
     CreateButtons(): void{

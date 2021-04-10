@@ -4,30 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
+    <script src="https://kit.fontawesome.com/55af62865c.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
     <div id="sounds">
-        <audio src="./sounds/kick.wav" data-key="a" data-sound="kick"></audio>
-        <audio src="./sounds/boom.wav" data-key="s" data-sound="boom"></audio>
-        <audio src="./sounds/clap.wav" data-key="d" data-sound="clap"></audio>
-        <audio src="./sounds/hihat.wav" data-key="f" data-sound="hihat"></audio>
-        <audio src="./sounds/openhat.wav" data-key="g" data-sound="openhat"></audio>
-        <audio src="./sounds/ride.wav" data-key="h" data-sound="ride"></audio>
-        <audio src="./sounds/snare.wav" data-key="j" data-sound="snare"></audio>
-        <audio src="./sounds/tink.wav" data-key="k" data-sound="tink"></audio>
-        <audio src="./sounds/tom.wav" data-key="l" data-sound="tom"></audio>
+        <audio src="./sounds/kick.wav" data-key="A" data-sound="kick"></audio>
+        <audio src="./sounds/boom.wav" data-key="S" data-sound="boom"></audio>
+        <audio src="./sounds/clap.wav" data-key="D" data-sound="clap"></audio>
+        <audio src="./sounds/hihat.wav" data-key="F" data-sound="hihat"></audio>
+        <audio src="./sounds/openhat.wav" data-key="G" data-sound="openhat"></audio>
+        <audio src="./sounds/ride.wav" data-key="H" data-sound="ride"></audio>
+        <audio src="./sounds/snare.wav" data-key="J" data-sound="snare"></audio>
+        <audio src="./sounds/tink.wav" data-key="K" data-sound="tink"></audio>
+        <audio src="./sounds/tom.wav" data-key="L" data-sound="tom"></audio>
     </div>
 
     <div id="soundBtns">
     </div>
 
-    
-    <button id="Play">Play</button>
-    <button id="Record">Record</button>
+    <div class="ChannelsManager">
 
-    <button id="Stop">Stop</button>
-    
+        <div class="Channels">
+            <div id="0" class="Channel">
+                Channel 1 -
+                <i class="fas fa-record-vinyl"></i>
+                <i class="fas fa-play"></i>
+            </div>
+            <div id="1" class="Channel">
+                Channel 2   -
+                <i class="fas fa-record-vinyl"></i>
+                <i class="fas fa-play"></i>
+            </div>
+            <div id="2" class="Channel">
+                Channel 3   -
+                <i class="fas fa-record-vinyl"></i>
+                <i class="fas fa-play"></i>
+            </div>
+            <div id="3" class="Channel">
+                Channel 4   -
+                <i class="fas fa-record-vinyl"></i>
+                <i class="fas fa-play"></i>
+            </div>
+        </div>
+
+        <div class="StatusBar">
+            <div class="State">
+                Ready
+            </div>
+            <button id="Stop" class="InActive">
+                Stop recording.
+            </button>
+        </div>
+
+    </div>
     <script src="app/index.js"></script>
 </body>
 </html>

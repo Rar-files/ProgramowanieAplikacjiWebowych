@@ -5,20 +5,20 @@ var DrumKit = /** @class */ (function () {
     DrumKit.prototype.DrumKitStart = function () {
         var _this = this;
         document.addEventListener('keypress', function (ev) { return _this.OnKeyPress(ev); });
-        this.sounds = this.GetSoundElements();
+        this.GetElements();
         this.recordChannel = -1;
         this.Channels = new Array();
         this.ChannelResetTime = new Array();
     };
-    DrumKit.prototype.GetSoundElements = function () {
-        return document.querySelectorAll('#sounds audio');
+    DrumKit.prototype.GetElements = function () {
+        this.sounds = document.querySelectorAll('#sounds audio');
     };
     DrumKit.prototype.OnKeyPress = function (ev) {
         this.PlaySoundByKey(ev.key);
     };
     DrumKit.prototype.PlaySoundByKey = function (key) {
         var _this = this;
-        key = key.toLowerCase();
+        key = key.toUpperCase();
         this.sounds.forEach(function (e) {
             if (e.dataset.key == key) {
                 _this.PlaySound(e);
@@ -70,15 +70,35 @@ var DrumKitView = /** @class */ (function () {
         this.CreateButtons();
         this.AddEventListeners();
     };
-    DrumKitView.prototype.AddEventListeners = function () {
-        var _this = this;
-        document.querySelector("#Play").addEventListener('click', function () { return _this.drumKit.RecordPlay(1); });
-        document.querySelector("#Stop").addEventListener('click', function () { return _this.drumKit.RecordStop(); });
-        document.querySelector("#Record").addEventListener('click', function () { return _this.drumKit.RecordStart(1); });
-    };
     DrumKitView.prototype.GetElements = function () {
         this.drumKit = new DrumKit();
         this.btnsRoot = document.querySelector("#soundBtns");
+        this.stateMonitor = document.querySelector(".State");
+        this.stopButton = document.querySelector("#Stop");
+    };
+    DrumKitView.prototype.AddEventListeners = function () {
+        var _this = this;
+        var Channels = document.querySelectorAll(".Channels div");
+        Channels.forEach(function (e) {
+            e.children[0].addEventListener('click', function () { return _this.RecordStart(+e.id); });
+            e.children[1].addEventListener('click', function () { return _this.RecordPlay(+e.id); });
+        });
+        this.stopButton.addEventListener('click', function () { return _this.RecordStop(); });
+    };
+    DrumKitView.prototype.RecordStart = function (channel) {
+        this.stateMonitor.innerHTML = "Recording Ch" + (channel + 1);
+        this.stateMonitor.classList.add("RecordingStatus");
+        this.stopButton.classList.remove("InActive");
+        this.drumKit.RecordStart(channel);
+    };
+    DrumKitView.prototype.RecordPlay = function (channel) {
+        this.drumKit.RecordPlay(channel);
+    };
+    DrumKitView.prototype.RecordStop = function () {
+        this.stateMonitor.innerHTML = "Ready";
+        this.stateMonitor.classList.remove("RecordingStatus");
+        this.stopButton.classList.add("InActive");
+        this.drumKit.RecordStop;
     };
     DrumKitView.prototype.CreateButtons = function () {
         var _this = this;
