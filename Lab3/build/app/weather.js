@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,11 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Weather = void 0;
-class Weather {
+export class Weather {
     constructor() {
-        this.opwApiKey = 'b60eb9a8ecmsh7fa0b5402e50928p15019fjsn7a5b382d1f5e';
+        this.opwApiKey = "4ae9208ad817322c6b83986c2773d7a2";
         this.getCityInfo("myślenice");
     }
     getCityInfo(city) {
@@ -30,5 +27,3 @@ class Weather {
         });
     }
 }
-exports.Weather = Weather;
-//# sourceMappingURL=Weather.js.map

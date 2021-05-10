@@ -1,5 +1,5 @@
 export class Weather{
-    opwApiKey = 'b60eb9a8ecmsh7fa0b5402e50928p15019fjsn7a5b382d1f5e';
+    opwApiKey = "4ae9208ad817322c6b83986c2773d7a2";
 
     constructor(){
         this.getCityInfo("myślenice");
