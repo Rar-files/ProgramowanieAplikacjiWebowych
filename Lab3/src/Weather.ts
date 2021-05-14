@@ -1,5 +1,5 @@
 export class Weather{
-    opwApiKey = "4ae9208ad817322c6b83986c2773d7a2";
+    opwApiKey = "4aa22253676913da0265dca40bf37854";
 
     constructor(){
         this.getCityInfo("myślenice");
@@ -9,13 +9,13 @@ export class Weather{
         this.getWeather(city);
     }
 
-    async getWeather(city: string) : Promise<any> {
-        const openWeatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${this.opwApiKey}`;
-        const weatherResponse = await fetch(openWeatherUrl);
-        const weatherData = await weatherResponse.json();
+    async getWeather(city: string) : Promise<void> {
+        let weatherData;
+        await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.opwApiKey}`)
+            .then(res => res.json())
+            .then(data => weatherData = data);
         console.log(weatherData);
         return weatherData;
     }
-
 
 }

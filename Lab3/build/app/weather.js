@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 export class Weather {
     constructor() {
-        this.opwApiKey = "4ae9208ad817322c6b83986c2773d7a2";
+        this.opwApiKey = "4aa22253676913da0265dca40bf37854";
         this.getCityInfo("myślenice");
     }
     getCityInfo(city) {
@@ -19,9 +19,10 @@ export class Weather {
     }
     getWeather(city) {
         return __awaiter(this, void 0, void 0, function* () {
-            const openWeatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${this.opwApiKey}`;
-            const weatherResponse = yield fetch(openWeatherUrl);
-            const weatherData = yield weatherResponse.json();
+            let weatherData;
+            yield fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.opwApiKey}`)
+                .then(res => res.json())
+                .then(data => weatherData = data);
             console.log(weatherData);
             return weatherData;
         });

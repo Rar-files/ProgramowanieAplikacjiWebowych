@@ -1,3 +1,3 @@
-import {Weather} from './Weather.js';
+import {WeatherView} from './WeatherView.js';
 
-const weatherApp = new Weather();
+const weatherApp = new WeatherView();
