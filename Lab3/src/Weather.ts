@@ -6,14 +6,15 @@ export class Weather{
     }
 
     async getCityInfo(city: string){
-        this.getWeather(city);
+        return this.getWeather(city);
     }
 
     async getWeather(city: string) : Promise<void> {
         let weatherData;
         await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.opwApiKey}`)
             .then(res => res.json())
-            .then(data => weatherData = data);
+            .then(data => weatherData = data)
+            .catch()
         console.log(weatherData);
         return weatherData;
     }

@@ -14,7 +14,7 @@ export class Weather {
     }
     getCityInfo(city) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.getWeather(city);
+            return this.getWeather(city);
         });
     }
     getWeather(city) {
@@ -22,7 +22,8 @@ export class Weather {
             let weatherData;
             yield fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.opwApiKey}`)
                 .then(res => res.json())
-                .then(data => weatherData = data);
+                .then(data => weatherData = data)
+                .catch();
             console.log(weatherData);
             return weatherData;
         });
