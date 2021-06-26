@@ -46,7 +46,12 @@ export default class Palette {
     public async showPalette() : Promise<string>{
         this.PaletteElement.classList.toggle("invisible");
         
-        await waitUntil(() => this.PaletteElement.classList.contains("invisible"))
+        try{
+            await waitUntil(() => this.PaletteElement.classList.contains("invisible"),{ timeout: 20000 })
+        }
+        catch{
+            this.PaletteElement.classList.toggle("invisible");
+        }
         
         return this.checkedColor;
     }
