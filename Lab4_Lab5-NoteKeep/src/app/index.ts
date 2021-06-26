@@ -1,5 +1,10 @@
+import environment from '../config/config';
 import '../style/main.scss';
-import {WeatherView} from './WeatherView';
+import AppReducers from "./AppReducers";
+import Notes from './Notes';
 
-const weatherApp = new WeatherView();
-weatherApp.Start();
+export const appStorage = AppReducers(environment);
+
+export const notesApp = new Notes();
+
+notesApp.Start()

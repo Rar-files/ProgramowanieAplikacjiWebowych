@@ -1,15 +1,31 @@
-$Blue: #BDFFFD;
-$Yellow: #FED766;
-$Red: #EB5E55;
-$Violet: #A491D3;
-$Green: #D6FFB7;
-$Orange: #E8985E;
+$blue: #BDFFFD;
+$yellow: #FED766;
+$red: #EB5E55;
+$violet: #A491D3;
+$green: #D6FFB7;
+$orange: #E8985E;
 
-:export {
-    Blue: $Blue;
-    Yellow: $Yellow;
-    Red: $Red;
-    Violet: $Violet;
-    Green: $Green;
-    Orange: $Orange;
+//Note-colors-classes
+.color-blue{
+    background-color: $blue;
+}
+
+.color-yellow{
+    background-color: $yellow;
+}
+
+.color-red{
+    background-color: $red;
+}
+
+.color-violet{
+    background-color: $violet;
+}
+
+.color-green{
+    background-color: $green;
+}
+
+.color-orange{
+    background-color: $orange;
 }
