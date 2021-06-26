@@ -1,12 +1,29 @@
 import INote from "../interfaces/INote";
 import {appStorage, ColorsPallete, notesApp} from "./index"
+import { PaletteColors } from "./Palette";
 
 export default class NoteHTMLFactory{
     NoteElement : HTMLDivElement;
     noteData : INote;
 
     constructor(noteData : INote){
+
+        if(!this.checkIsPaletteColor(noteData.color))
+            noteData.color = PaletteColors.blue;
+
         this.noteData = noteData;
+    }
+
+    private checkIsPaletteColor (color : string) {
+        let isPaletteColor = false
+        for (const item in PaletteColors) {
+            if(item == color)
+            {
+                isPaletteColor = true;
+                break;
+            }
+        }
+        return isPaletteColor;
     }
 
     getHTMLNote() : HTMLDivElement{
@@ -158,7 +175,7 @@ export default class NoteHTMLFactory{
 
     private async DelateNote(e : HTMLElement) : Promise<void>{
         const Note = e.parentNode.parentNode.parentNode as HTMLDivElement;
-        appStorage.deleteNote(+Note.id)
+        await appStorage.deleteNote(+Note.id);
         Note.parentNode.removeChild(Note);
     }
 

@@ -45,11 +45,9 @@ export default class Palette {
 
     public async showPalette() : Promise<string>{
         this.PaletteElement.classList.toggle("invisible");
-        console.log("befor");
         
         await waitUntil(() => this.PaletteElement.classList.contains("invisible"))
         
-        console.log("after");
         return this.checkedColor;
     }
     

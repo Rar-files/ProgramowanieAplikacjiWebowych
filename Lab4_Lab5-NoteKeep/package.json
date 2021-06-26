@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "async-wait-until": "^2.0.7",
-    "css-modules-typescript-loader": "^4.0.1"
+    "css-modules-typescript-loader": "^4.0.1",
+    "firebase": "^8.6.8"
   }
 }

@@ -56,14 +56,4 @@ export default class localStorage implements IAppStorage{
         ))
     }
 
-    async deleteAllNotes() : Promise<boolean>{
-        try{
-            await window.localStorage.removeItem(this.key);
-            return true;
-        }
-        catch{
-            return false;
-        }
-    }
-
 }

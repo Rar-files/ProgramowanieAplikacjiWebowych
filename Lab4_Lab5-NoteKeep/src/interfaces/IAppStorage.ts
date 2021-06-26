@@ -6,7 +6,6 @@ interface IAppStorage {
     editNote: (id: number, title?: string, body?: string, color?: string, date?: string, pined?: boolean) => Promise<void>,
     getNotes: () => Promise<INote[]>,
     deleteNote: (id: number) => Promise<void>,
-    deleteAllNotes: () => Promise<boolean>
 }
 
 export default IAppStorage;
