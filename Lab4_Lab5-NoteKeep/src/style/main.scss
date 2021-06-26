@@ -1,5 +1,6 @@
 @import './Colors/App.scss';
 @import './Colors/Palette.scss';
+@import './note.scss';
 
 html,
 body {
@@ -14,18 +15,13 @@ body{
 
 .Content{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.Heading{
-    padding: 4px;
-    display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
 }
 
 .Title{
+    padding: 4px;
     margin: 2px;
     display: flex;
     align-items: center;
@@ -36,22 +32,33 @@ body{
     width: 50px;
 }
 
-.SearchBar{
-    margin: 4px;
-    display: flex;
-    border-radius: 20px;
-    background-color: $Background;
-    box-shadow: 0px 0px 10px #272323;
+.RootTitle{
+    margin: 5px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 14px;
 }
 
 .NoteRoot{
     padding: 2px;
-    margin-top: 4px;
     position: relative;
-    height: 100%;
+    width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     scrollbar-width: 0;
+}
+
+.addBtn{
+    background: none;
+    border: none;
+}
+
+.addBtn img{
+    margin: 10px;
+    height: 36px;
+    cursor: pointer;
 }
 
 .invisible{

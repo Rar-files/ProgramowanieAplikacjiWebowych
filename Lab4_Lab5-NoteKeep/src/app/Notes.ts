@@ -12,8 +12,8 @@ export default class Notes{
 
     async updateNotesInView() : Promise<void>{
         const notesList = await appStorage.getNotes()
-        document.querySelector(".PinedNoteRoot").innerHTML = "";
-        document.querySelector(".NoteRoot").innerHTML = "";
+        document.querySelector(".Pined").innerHTML = "";
+        document.querySelector(".UnPined").innerHTML = "";
         notesList.forEach( (note : INote) => this.addNoteToView(note));
     }
 
@@ -21,16 +21,16 @@ export default class Notes{
         let root : HTMLDivElement;
 
         if(noteData.pined)
-            root = document.querySelector(".PinedNoteRoot");
+            root = document.querySelector(".Pined");
         else
-            root = document.querySelector(".NoteRoot");
+            root = document.querySelector(".UnPined");
 
         const factory = new NoteHTMLFactory(noteData);
         root.appendChild(factory.getHTMLNote());
     }
 
     async createNote() : Promise<void>{
-        const root = document.querySelector(".NoteRoot");
+        const root = document.querySelector(".UnPined");
         const notes = await appStorage.getNotes();
         let id;
         try{

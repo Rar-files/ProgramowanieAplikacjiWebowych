@@ -16,9 +16,11 @@ export default class NoteHTMLFactory{
     editorModeToggle(element : HTMLElement) : void{
         //toogle-btn-classes
         const PaletteBtn = element.children[0].children[1].children[0];
-        const DeleteBtn = element.children[0].children[1].children[1];
+        const DeleteBtn = element.children[0].children[1].children[1];  
+        const PinBtn = element.children[0].children[1].children[2];
         PaletteBtn.classList.toggle("invisible");
         DeleteBtn.classList.toggle("invisible");
+        PinBtn.classList.toggle("invisible");
 
         //toogle-title-classes
         const TitleText = element.children[0].children[0].children[0];
@@ -73,7 +75,7 @@ export default class NoteHTMLFactory{
     private CreateDateDiv() : HTMLDivElement {
         const div = document.createElement("div");
         
-        div.classList.add("DataDiv");
+        div.classList.add("DateDiv");
 
         div.innerHTML = this.noteData.date;
 
@@ -90,8 +92,8 @@ export default class NoteHTMLFactory{
         
         div.appendChild(this.CreateDeleteBtn());
         div.appendChild(this.CreatePaletteBtn());
-        div.appendChild(this.CreateEditBtn());
         div.appendChild(this.CreatePinBtn());
+        div.appendChild(this.CreateEditBtn());
 
         return div;
     }
@@ -99,41 +101,53 @@ export default class NoteHTMLFactory{
 
     //Create-Buttons
 
-    private CreateDeleteBtn() : HTMLButtonElement{
-        const Btn = document.createElement("button");
+    private CreateDeleteBtn() : HTMLImageElement{
+        const Btn = document.createElement("img");
 
         Btn.classList.add("DeleteBtn");
+        Btn.classList.add("Btn");
+
+        Btn.src = '../assets/garbage.svg';
 
         Btn.addEventListener('click', (e) => this.DelateNote(e.target as HTMLElement))
 
         return Btn;
     }
 
-    private CreateEditBtn() : HTMLButtonElement{
-        const Btn = document.createElement("button");
+    private CreateEditBtn() : HTMLImageElement{
+        const Btn = document.createElement("img");
 
         Btn.classList.add("EditBtn");
+        Btn.classList.add("Btn");
+
+        Btn.src = '../assets/pen.svg';
 
         Btn.addEventListener('click', (e) => this.EditNote(e.target as HTMLElement))
 
         return Btn;
     }
 
-    private CreatePaletteBtn() : HTMLButtonElement{
-        const Btn = document.createElement("button");
+    private CreatePaletteBtn() : HTMLImageElement{
+        const Btn = document.createElement("img");
 
         Btn.classList.add("PaletteBtn");
+        Btn.classList.add("Btn");
         Btn.classList.add("invisible");
+
+        Btn.src = '../assets/palette.svg';
 
         Btn.addEventListener('click', (e) => this.PaletteNote(e.target as HTMLElement))
 
         return Btn;
     }
 
-    private CreatePinBtn() : HTMLButtonElement{
-        const Btn = document.createElement("button");
+    private CreatePinBtn() : HTMLImageElement{
+        const Btn = document.createElement("img");
 
         Btn.classList.add("PinBtn");
+        Btn.classList.add("Btn");
+
+        Btn.src = '../assets/pin.svg';
 
         Btn.addEventListener('click', (e) => this.PinNote(e.target as HTMLElement))
 
@@ -158,7 +172,7 @@ export default class NoteHTMLFactory{
     }
 
     private async PinNote(e: HTMLElement) : Promise<void> {
-        const Note = e.parentNode.parentNode.parentNode as HTMLDivElement;
+        const Note = e.parentNode.parentNode.parentNode.parentNode as HTMLDivElement;
         const notes = await appStorage.getNotes();
         const note = notes[+Note.id];
 
