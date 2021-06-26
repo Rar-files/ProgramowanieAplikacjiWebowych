@@ -1,4 +1,5 @@
 import INote from "../interfaces/INote";
+import {PaletteColors} from "./Palette";
 
 export default class Note implements INote{
     id: number;
@@ -12,7 +13,7 @@ export default class Note implements INote{
         this.id = id;
         this.title = "";
         this.body = "";
-        this.color = "blue";
+        this.color = PaletteColors.blue;
         this.date = new Date(Date.now()).toLocaleString();
         this.pined = false;
     }

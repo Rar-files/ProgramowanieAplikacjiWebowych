@@ -50,15 +50,43 @@ body{
     scrollbar-width: 0;
 }
 
+.Pined{
+    background-color: $Comment;
+}
+
 .addBtn{
     background: none;
     border: none;
+    img{
+        margin: 10px;
+        height: 36px;
+        cursor: pointer;
+    }
 }
 
-.addBtn img{
-    margin: 10px;
-    height: 36px;
-    cursor: pointer;
+.PalleteOfColors{
+    margin: 50%;
+    padding: 10px;
+    width: 132px;
+    height: 90px;
+    position: fixed;
+    border-color: $Accent;
+    border-width: 1px;
+    border-style: solid;
+    background-color: $Comment;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    div{ 
+        margin: 3px;
+        padding: 10px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 }
 
 .invisible{

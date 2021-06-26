@@ -1,5 +1,5 @@
 import INote from "../interfaces/INote";
-import {appStorage, notesApp} from "./index"
+import {appStorage, ColorsPallete, notesApp} from "./index"
 
 export default class NoteHTMLFactory{
     NoteElement : HTMLDivElement;
@@ -168,7 +168,14 @@ export default class NoteHTMLFactory{
     }
 
     private async PaletteNote(e : HTMLElement) : Promise<void>{
-        this.editorModeToggle(e);
+        const Note = e.parentNode.parentNode.parentNode as HTMLDivElement;
+        const color = await ColorsPallete.showPalette()
+
+        Note.className = "";
+        Note.classList.add("Note")
+        Note.classList.add(`color-${color}`);
+
+        appStorage.editNote(+Note.id,null,null,color);
     }
 
     private async PinNote(e: HTMLElement) : Promise<void> {
